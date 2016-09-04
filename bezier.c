@@ -40,13 +40,11 @@ void plot (int x, int y){
     glBegin (GL_POINTS);
     glVertex2i (x,y);
     glEnd();
-    if (pixel == 1){
+    if (pixel > 0){
         glFlush();    
-    }
-    
+    }   
 }
 
-//Trazo de la línea entre dos puntos.
 void bresenham (int x0, int y0, int x1, int y1, void (*plot)(int,int)){
     int d2x,d2y,dx,dy,d,
         Delta_N,Delta_NE,Delta_E,Delta_SE,
@@ -218,7 +216,6 @@ void bresenham (int x0, int y0, int x1, int y1, void (*plot)(int,int)){
     }
 }
 
-//Actualiza el arreglo global dinámico que almacenará las coordenadas universales actuales. AL leerlas del archivo establece todo con el mapa completo. 
 void paramEc (int x0,int y0,int x1,int y1,int x2,int y2,int x3,int y3,double t) {
     
     int x0p, y0p, x1p, y1p, x2p, y2p, x3p, y3p;
@@ -247,10 +244,9 @@ void paramEc (int x0,int y0,int x1,int y1,int x2,int y2,int x3,int y3,double t) 
     currPoint[1] = nextPoint[1];
 }
 
-
 void readFile(){
 
-    char *filename = "puntos.txt";    
+    char *filename = "points.txt";    
     char comma;
     int i, j, k, c;
 
@@ -297,9 +293,15 @@ void bezier (int x0,int y0,int x1,int y1,int x2,int y2,int x3,int y3,int ptAmoun
 
 int main(int argc, char *argv[]){
     int i,x0,y0,x1,y1,x2,y2,x3,y3; //Los puntos gravitacionales
-    
+    int mode;
+    if (sscanf (argv[1], "%i", &mode)!=1) {
+        printf("Modo no reconocido");
+    }
+    else {
+        pixel = mode;
+    }
     buffer = (COLOR **)malloc(res * sizeof(COLOR*));
-    
+        
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(res,res);
@@ -315,13 +317,13 @@ int main(int argc, char *argv[]){
         x2 = points[i][4]/1.5; y2 = points[i][5]/1.5+180;
         x3 = points[i][6]/1.5; y3 = points[i][7]/1.5+180;
         
-        if (i >= 18 ) {
+        if (mode == 2 ) {
             glColor3f(1,0,0);
             bresenham(x0,y0,x1,y1,plot);
             bresenham(x1,y1,x2,y2,plot);
             bresenham(x2,y2,x3,y3,plot);
-            pixel = 1;
         }
+
         glColor3f(0,1,0);
         bezier(x0,y0,x1,y1,x2,y2,x3,y3,200);
     }
