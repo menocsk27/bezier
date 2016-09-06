@@ -250,7 +250,7 @@ int readFile(){
     char comma;
     int i, j, k, c;
 
-mn    int value;
+    int value;
 
     FILE* file;
     if (file = fopen(filename, "r"))
