@@ -250,7 +250,7 @@ int readFile(){
     char comma;
     int i, j, k, c;
 
-    int value;
+mn    int value;
 
     FILE* file;
     if (file = fopen(filename, "r"))
@@ -333,10 +333,10 @@ int main(int argc, char *argv[]){
     }  
     else {
         for (i = 0; i < lines; i++ ) {
-            x0 = points[i][0]/1.5; y0 = points[i][1]/1.5+180;
-            x1 = points[i][2]/1.5; y1 = points[i][3]/1.5+180;
-            x2 = points[i][4]/1.5; y2 = points[i][5]/1.5+180;
-            x3 = points[i][6]/1.5; y3 = points[i][7]/1.5+180;
+            x0 = points[i][0]; y0 = points[i][1];
+            x1 = points[i][2]; y1 = points[i][3];
+            x2 = points[i][4]; y2 = points[i][5];
+            x3 = points[i][6]; y3 = points[i][7];
             
             if (mode == 2 ) {
                 glColor3f(1,0,0);
@@ -346,7 +346,7 @@ int main(int argc, char *argv[]){
             }
 
             glColor3f(0,1,0);
-            bezier(x0,y0,x1,y1,x2,y2,x3,y3,200);
+            bezier(x0,y0,x1,y1,x2,y2,x3,y3,3000);
         }
             
         glFlush();
